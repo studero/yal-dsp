@@ -33,7 +33,7 @@ public class TestGui extends JPanel{
 		constraints.gridy = 0;
 		constraints.gridwidth = 2;
 		
-		fileSelector = new JComboBox<String>(new File("sounds").list());
+		fileSelector = new JComboBox<String>(new File(TestGui.class.getClassLoader().getResource("sounds").getFile()).list());
 		add(fileSelector, constraints);
 		
 		JButton add = new JButton("add");
