@@ -10,10 +10,10 @@ public class OnboardProcessor implements Processor {
 	private final Recorder recorder;
 	private final LoopStore loopStore;
 
-	public OnboardProcessor() {
+	public OnboardProcessor(LoopStore loopStore) {
 		this.player = new Player();
 		this.recorder = new Recorder();
-		this.loopStore = new LoopStore();
+		this.loopStore = loopStore;
 	}
 
 	@Override
@@ -78,8 +78,7 @@ public class OnboardProcessor implements Processor {
 
 	@Override
 	public int putData(byte[] data) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.loopStore.addSample(data);
 	}
 
 }
