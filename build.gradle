@@ -22,5 +22,4 @@ dependencies {
   testCompile 'org.mockito:mockito-all:2.0.2-beta'
 }
 
-//mainClassName = "ch.sulco.yal.dsp.TestGui"
-mainClassName = "ch.sulco.yal.dsp.Main
+mainClassName = "ch.sulco.yal.dsp.Main"
