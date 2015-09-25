@@ -1,4 +1,4 @@
-package ch.sulco.yal.dsp;
+package ch.sulco.yal.dsp.audio.onboard;
 
 import java.io.File;
 import java.util.Arrays;

@@ -1,5 +1,7 @@
 package ch.sulco.yal.dsp;
 
+import ch.sulco.yal.dsp.audio.onboard.Player;
+
 public class Controller {
 	private Player player;
 	
