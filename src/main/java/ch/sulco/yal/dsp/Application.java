@@ -9,6 +9,7 @@ import ch.sulco.yal.dsp.audio.Processor;
 import ch.sulco.yal.dsp.cmd.Command;
 import ch.sulco.yal.dsp.cmd.CommandReceiver;
 import ch.sulco.yal.dsp.cmd.CommandReceiver.CommandListener;
+import ch.sulco.yal.dsp.cmd.LoadSample;
 
 public class Application implements CommandListener {
 
@@ -29,5 +30,10 @@ public class Application implements CommandListener {
 	@Override
 	public void onCommand(Command command) {
 		log.info("Command received [" + command + "]");
+		if (command instanceof LoadSample) {
+			LoadSample loadSample = (LoadSample) command;
+			int sampleId = this.audioProcessor.putData(loadSample.getData());
+			log.info("New Sample created [id=" + sampleId + "]");
+		}
 	}
 }
