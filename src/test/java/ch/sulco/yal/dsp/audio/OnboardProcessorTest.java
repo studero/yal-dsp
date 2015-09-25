@@ -19,7 +19,7 @@ public class OnboardProcessorTest {
 	public void testPutData() {
 		LoopStore loopStore = mock(LoopStore.class);
 		when(loopStore.addSample("test".getBytes())).thenReturn(10101);
-		OnboardProcessor onboardProcessor = new OnboardProcessor(loopStore);
+		OnboardProcessor onboardProcessor = new OnboardProcessor(null, null, loopStore);
 
 		int sample1 = onboardProcessor.putData("test".getBytes());
 
@@ -31,7 +31,7 @@ public class OnboardProcessorTest {
 	public void testGetSampleIds() {
 		LoopStore loopStore = mock(LoopStore.class);
 		when(loopStore.getSampleIds()).thenReturn(Sets.newSet(10101, 20202));
-		OnboardProcessor onboardProcessor = new OnboardProcessor(loopStore);
+		OnboardProcessor onboardProcessor = new OnboardProcessor(null, null, loopStore);
 
 		Set<Integer> sampleIds = onboardProcessor.getSampleIds();
 

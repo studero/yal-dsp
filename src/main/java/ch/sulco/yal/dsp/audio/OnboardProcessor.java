@@ -12,9 +12,9 @@ public class OnboardProcessor implements Processor {
 	private final Recorder recorder;
 	private final LoopStore loopStore;
 
-	public OnboardProcessor(LoopStore loopStore) {
-		this.player = new Player();
-		this.recorder = new Recorder();
+	public OnboardProcessor(Player player, Recorder recorder, LoopStore loopStore) {
+		this.player = player;
+		this.recorder = recorder;
 		this.loopStore = loopStore;
 	}
 
