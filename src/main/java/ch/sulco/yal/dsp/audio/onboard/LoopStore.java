@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ch.sulco.yal.dsp.dm.Sample;
 
@@ -21,5 +22,9 @@ public class LoopStore {
 
 	public Collection<Sample> getSamples() {
 		return this.samples.values();
+	}
+
+	public Set<Integer> getSampleIds() {
+		return this.samples.keySet();
 	}
 }

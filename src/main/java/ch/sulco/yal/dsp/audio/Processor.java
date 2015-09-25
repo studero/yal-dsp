@@ -1,5 +1,7 @@
 package ch.sulco.yal.dsp.audio;
 
+import java.util.Set;
+
 /**
  * provides method for audio processing.
  */
@@ -7,12 +9,12 @@ public interface Processor {
 	/**
 	 * @return an array of sample ids.
 	 */
-	int[] getSampleIds();
+	Set<Integer> getSampleIds();
 
 	/**
 	 * @return an array of channel ids.
 	 */
-	int[] getChannelIds();
+	Set<Integer> getChannelIds();
 
 	/**
 	 * @param sampleId

@@ -1,5 +1,7 @@
 package ch.sulco.yal.dsp.audio;
 
+import java.util.Set;
+
 import ch.sulco.yal.dsp.audio.onboard.LoopStore;
 import ch.sulco.yal.dsp.audio.onboard.Player;
 import ch.sulco.yal.dsp.audio.onboard.Recorder;
@@ -17,13 +19,12 @@ public class OnboardProcessor implements Processor {
 	}
 
 	@Override
-	public int[] getSampleIds() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Integer> getSampleIds() {
+		return this.loopStore.getSampleIds();
 	}
 
 	@Override
-	public int[] getChannelIds() {
+	public Set<Integer> getChannelIds() {
 		// TODO Auto-generated method stub
 		return null;
 	}
