@@ -1,4 +1,4 @@
-package ch.sulco.yal.dsp.audio;
+package ch.sulco.yal.dsp.audio.onboard;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.internal.util.collections.Sets;
 
 import ch.sulco.yal.dsp.audio.onboard.LoopStore;
+import ch.sulco.yal.dsp.audio.onboard.OnboardProcessor;
 
 public class OnboardProcessorTest {
 	@Test

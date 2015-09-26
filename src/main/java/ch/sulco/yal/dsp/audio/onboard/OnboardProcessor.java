@@ -1,10 +1,8 @@
-package ch.sulco.yal.dsp.audio;
+package ch.sulco.yal.dsp.audio.onboard;
 
 import java.util.Set;
 
-import ch.sulco.yal.dsp.audio.onboard.LoopStore;
-import ch.sulco.yal.dsp.audio.onboard.Player;
-import ch.sulco.yal.dsp.audio.onboard.Recorder;
+import ch.sulco.yal.dsp.audio.Processor;
 
 public class OnboardProcessor implements Processor {
 
