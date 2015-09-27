@@ -10,6 +10,6 @@ public class Main {
 	public static void main(String[] args) {
 		AppConfig appConfig = new AppConfig();
 		new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(new Player(),
-				new Recorder(), new LoopStore()));
+				new Recorder(appConfig), new LoopStore()));
 	}
 }
