@@ -43,4 +43,8 @@ public class Application implements CommandListener {
 			this.audioProcessor.loop();
 		}
 	}
+	
+	public Processor getAudioProcessor(){
+		return this.audioProcessor;
+	}
 }
