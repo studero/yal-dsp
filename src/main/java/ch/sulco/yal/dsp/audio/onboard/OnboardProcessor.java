@@ -4,6 +4,7 @@ import java.util.Set;
 
 import ch.sulco.yal.dsp.audio.Processor;
 import ch.sulco.yal.dsp.audio.RecordingState;
+import ch.sulco.yal.dsp.dm.Sample;
 
 public class OnboardProcessor implements Processor {
 
@@ -62,13 +63,23 @@ public class OnboardProcessor implements Processor {
 
 	@Override
 	public void setChannelRecording(int channelId, boolean recording) {
-		// TODO Auto-generated method stub
-
+		if(recording){
+			recorder.startRecord();
+		}else{
+			recorder.stopRecord();
+		}
 	}
 
 	@Override
 	public void setSampleMute(int sampleId, boolean mute) {
-		// TODO Auto-generated method stub
+		Sample sample = loopStore.getSample(sampleId);
+		if(sample != null){
+			if(mute){
+				player.startSample(sample);
+			}else{
+				player.startSample(sample);
+			}
+		}
 
 	}
 
