@@ -1,6 +1,5 @@
 package ch.sulco.yal.dsp.audio.onboard;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.sound.sampled.Clip;
@@ -44,5 +43,15 @@ public class Player {
 			clip.loop(0);
 			playingClips.remove(clip);
 		}
+	}
+
+	public void addLoopListerner(Recorder recorder) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeLoopListerner(Recorder recorder) {
+		// TODO Auto-generated method stub
+		
 	}
 }

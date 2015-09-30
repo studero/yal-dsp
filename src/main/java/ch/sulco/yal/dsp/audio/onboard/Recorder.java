@@ -1,7 +1,5 @@
 package ch.sulco.yal.dsp.audio.onboard;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -11,49 +9,82 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
+import com.sun.corba.se.impl.ior.ByteBuffer;
+
 import ch.sulco.yal.dsp.AppConfig;
 
-public class Recorder extends Thread {
+public class Recorder implements LoopListener{
 	private final static Logger log = Logger.getLogger(Recorder.class.getName());
 
 	private final AppConfig appConfig;
-	private TargetDataLine line;
-	private ChannelListener channelListener;
-
-	public Recorder(AppConfig appConfig) {
-		this.appConfig = appConfig;
+	private Player player;
+	private LoopStore loopStore;
+	private RecordingState recordingState = RecordingState.STOPPED;
+	private byte[] recordedSample;
+	private ByteBuffer recordingSample;
+	
+	private enum RecordingState{
+		STOPPED,
+		WAITING,
+		RECORDING;
 	}
 
-	@Override
-	public void run() {
-		try {
-			DataLine.Info info = new DataLine.Info(TargetDataLine.class, this.appConfig.getAudioFormat());
-			checkState(AudioSystem.isLineSupported(info), "Line not supported");
-			this.line = (TargetDataLine) AudioSystem.getLine(info);
-			this.line.open(this.appConfig.getAudioFormat());
-			this.line.start();
-			log.info("Start capturing...");
-			AudioInputStream ais = new AudioInputStream(this.line);
-			log.info("Start recording...");
-
-			while (true) {
-				byte[] buffer = new byte[1024];
-				ais.read(buffer);
-				this.channelListener.onData(buffer);
-			}
-
-		} catch (LineUnavailableException ex) {
-			ex.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+	public Recorder(AppConfig appConfig, Player player, LoopStore loopStore) {
+		this.appConfig = appConfig;
+		this.player = player;
+		this.loopStore = loopStore;
+	}
+	
+	public void startRecord(){
+		if(recordingState == RecordingState.STOPPED){
+			recordingState = RecordingState.WAITING;
+			player.addLoopListerner(this);
 		}
 	}
-
-	public void setChannelListener(ChannelListener channelListener) {
-		this.channelListener = channelListener;
+	
+	public void stopRecord(){
+		recordingState = RecordingState.STOPPED;
+		player.removeLoopListerner(this);
+		if(recordedSample != null){
+			loopStore.addSample(recordedSample);
+			recordedSample = null;
+			recordingSample = null;
+		}
 	}
+	
+	public void loopStarted() {
+		if(recordingState == RecordingState.WAITING){
+			recordingState = RecordingState.RECORDING;
+			recordedSample = null;
+			recordingSample = new ByteBuffer();
+			Thread recordThread = new Thread(){
+				public void run() {
+					try {
+						DataLine.Info info = new DataLine.Info(TargetDataLine.class, appConfig.getAudioFormat());
+//						checkState(AudioSystem.isLineSupported(info), "Line not supported");
+						TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
+						line.open(appConfig.getAudioFormat());
+						line.start();
+						log.info("Start capturing...");
+						AudioInputStream ais = new AudioInputStream(line);
+						log.info("Start recording...");
+						while (recordingState == RecordingState.RECORDING) {
+							recordingSample.append(ais.read());
+						}
 
-	public interface ChannelListener {
-		void onData(byte[] data);
+					} catch (LineUnavailableException ex) {
+						ex.printStackTrace();
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					}
+				}
+			};
+			recordThread.start();
+		}else if(recordingState == RecordingState.RECORDING){
+			recordedSample = recordingSample.toArray();
+			recordingSample = new ByteBuffer();
+		}else{
+			player.removeLoopListerner(this);
+		}
 	}
 }

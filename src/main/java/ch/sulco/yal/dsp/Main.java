@@ -9,7 +9,9 @@ import ch.sulco.yal.dsp.cmd.SocketCommandReceiver;
 public class Main {
 	public static void main(String[] args) {
 		AppConfig appConfig = new AppConfig();
-		new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(new Player(),
-				new Recorder(appConfig), new LoopStore(appConfig)));
+		Player player = new Player();
+		LoopStore loopStore = new LoopStore(appConfig);
+		new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(player,
+				new Recorder(appConfig, player, loopStore), loopStore));
 	}
 }

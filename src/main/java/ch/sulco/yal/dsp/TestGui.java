@@ -28,7 +28,9 @@ public class TestGui extends JPanel{
 
 	public TestGui(){
 		AppConfig appConfig = new AppConfig();
-		controller = new OnboardProcessor(new Player(), new Recorder(appConfig), new LoopStore(appConfig));
+		Player player = new Player();
+		LoopStore loopStore = new LoopStore(appConfig);
+		controller = new OnboardProcessor(player, new Recorder(appConfig, player, loopStore), loopStore);
 
 		setLayout ( new GridBagLayout ());
 		GridBagConstraints constraints = new GridBagConstraints ();
