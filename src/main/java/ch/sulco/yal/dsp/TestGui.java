@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ch.sulco.yal.dsp.audio.onboard.AudioSystemProvider;
 import ch.sulco.yal.dsp.audio.onboard.LoopStore;
 import ch.sulco.yal.dsp.audio.onboard.OnboardProcessor;
 import ch.sulco.yal.dsp.audio.onboard.Player;
@@ -28,7 +29,7 @@ public class TestGui extends JPanel{
 
 	public TestGui(){
 		AppConfig appConfig = new AppConfig();
-		controller = new OnboardProcessor(new Player(), new Recorder(appConfig), new LoopStore(appConfig));
+		controller = new OnboardProcessor(new Player(), new Recorder(appConfig), new LoopStore(appConfig, new AudioSystemProvider()));
 
 		setLayout ( new GridBagLayout ());
 		GridBagConstraints constraints = new GridBagConstraints ();
