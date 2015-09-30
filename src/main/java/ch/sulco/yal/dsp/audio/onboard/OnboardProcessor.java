@@ -16,6 +16,10 @@ public class OnboardProcessor implements Processor {
 		this.loopStore = loopStore;
 	}
 	
+	public LoopStore getLoopStore(){
+		return loopStore;
+	}
+	
 	public Player getPlayer(){
 		return player;
 	}

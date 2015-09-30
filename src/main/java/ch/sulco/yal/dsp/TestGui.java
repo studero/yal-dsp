@@ -28,7 +28,7 @@ public class TestGui extends JPanel{
 
 	public TestGui(){
 		AppConfig appConfig = new AppConfig();
-		controller = new OnboardProcessor(new Player(appConfig), new Recorder(appConfig), new LoopStore());
+		controller = new OnboardProcessor(new Player(), new Recorder(appConfig), new LoopStore(appConfig));
 
 		setLayout ( new GridBagLayout ());
 		GridBagConstraints constraints = new GridBagConstraints ();
@@ -87,7 +87,7 @@ public class TestGui extends JPanel{
 			constraints.weighty = 1.0;
 			constraints.gridy = 0;
 			
-			final int id = controller.getPlayer().addSample(file);
+			final int id = controller.getLoopStore().addSample(file);
 			JLabel label = new JLabel(file);
 			constraints.gridx = 0;
 			add(label, constraints);
@@ -95,7 +95,7 @@ public class TestGui extends JPanel{
 			JButton start = new JButton("start");
 			start.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().startSample(id);
+					controller.getPlayer().startSample(controller.getLoopStore().getSample(id));
 				}
 			});
 			constraints.gridx = 1;
@@ -104,7 +104,7 @@ public class TestGui extends JPanel{
 			JButton stop = new JButton("stop");
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().stopSample(id);
+					controller.getPlayer().stopSample(controller.getLoopStore().getSample(id));
 				}
 			});
 			constraints.gridx = 2;
@@ -113,7 +113,7 @@ public class TestGui extends JPanel{
 			JButton remove = new JButton("remove");
 			remove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().removeLoop(id);
+					controller.getLoopStore().removeSample(id);
 					loopsPanel.remove(getPanel());
 					loopsPanel.updateUI();
 				}
