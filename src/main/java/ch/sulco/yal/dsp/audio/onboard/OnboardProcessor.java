@@ -3,6 +3,7 @@ package ch.sulco.yal.dsp.audio.onboard;
 import java.util.Set;
 
 import ch.sulco.yal.dsp.audio.Processor;
+import ch.sulco.yal.dsp.audio.RecordingState;
 
 public class OnboardProcessor implements Processor {
 
@@ -86,6 +87,11 @@ public class OnboardProcessor implements Processor {
 	@Override
 	public int putData(byte[] data) {
 		return this.loopStore.addSample(data);
+	}
+
+	@Override
+	public RecordingState getChannelRecordingState(int channelId) {
+		return this.recorder.getRecordingState();
 	}
 
 }

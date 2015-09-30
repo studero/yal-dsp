@@ -12,6 +12,7 @@ import javax.sound.sampled.TargetDataLine;
 import com.sun.corba.se.impl.ior.ByteBuffer;
 
 import ch.sulco.yal.dsp.AppConfig;
+import ch.sulco.yal.dsp.audio.RecordingState;
 
 public class Recorder implements LoopListener{
 	private final static Logger log = Logger.getLogger(Recorder.class.getName());
@@ -22,17 +23,15 @@ public class Recorder implements LoopListener{
 	private RecordingState recordingState = RecordingState.STOPPED;
 	private byte[] recordedSample;
 	private ByteBuffer recordingSample;
-	
-	private enum RecordingState{
-		STOPPED,
-		WAITING,
-		RECORDING;
-	}
 
 	public Recorder(AppConfig appConfig, Player player, LoopStore loopStore) {
 		this.appConfig = appConfig;
 		this.player = player;
 		this.loopStore = loopStore;
+	}
+	
+	public RecordingState getRecordingState(){
+		return recordingState;
 	}
 	
 	public void startRecord(){

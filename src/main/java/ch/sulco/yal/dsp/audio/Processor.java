@@ -54,6 +54,8 @@ public interface Processor {
 	 *            true if channel should be recording.
 	 */
 	void setChannelRecording(int channelId, boolean recording);
+	
+	RecordingState getChannelRecordingState(int channelId);
 
 	/**
 	 * set provided sample id to provided mute state.
