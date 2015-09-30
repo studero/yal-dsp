@@ -9,6 +9,7 @@ import javax.sound.sampled.LineListener;
 import ch.sulco.yal.dsp.dm.Sample;
 
 public class Player {
+	private LinkedList<LoopListener> loopListeners = new LinkedList<LoopListener>();
 	private LinkedList<Clip> playingClips = new LinkedList<Clip>();
 	
 	public void startSample(Sample sample){
@@ -45,13 +46,14 @@ public class Player {
 		}
 	}
 
-	public void addLoopListerner(Recorder recorder) {
-		// TODO Auto-generated method stub
-		
+	public void addLoopListerner(LoopListener loopListerer) {
+		if(playingClips.isEmpty()){
+			loopListerer.loopStarted();
+		}
+		loopListeners.add(loopListerer);
 	}
 
-	public void removeLoopListerner(Recorder recorder) {
-		// TODO Auto-generated method stub
-		
+	public void removeLoopListerner(LoopListener loopListerer) {
+		loopListeners.remove(loopListerer);
 	}
 }
