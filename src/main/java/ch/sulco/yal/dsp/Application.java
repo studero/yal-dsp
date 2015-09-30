@@ -27,6 +27,7 @@ public class Application implements CommandListener {
 		this.commandReceiver = commandReceiver;
 		this.commandReceiver.setCommandListener(this);
 		this.audioProcessor = processor;
+		log.info("Application started");
 	}
 
 	@Override

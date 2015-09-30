@@ -12,7 +12,7 @@ import ch.sulco.yal.dsp.Application;
 
 public class SocketCommandReceiver extends Thread implements CommandReceiver {
 	
-	private final static Logger log = Logger.getLogger(Application.class.getName());
+	private final static Logger log = Logger.getLogger(SocketCommandReceiver.class.getName());
 
 	private final AppConfig appConfig;
 
