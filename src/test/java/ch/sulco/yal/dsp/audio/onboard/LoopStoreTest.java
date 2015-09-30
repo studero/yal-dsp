@@ -10,12 +10,13 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import ch.sulco.yal.dsp.AppConfig;
 import ch.sulco.yal.dsp.dm.Sample;
 
 public class LoopStoreTest {
 	@Test
 	public void testAddSample() {
-		LoopStore loopStore = new LoopStore();
+		LoopStore loopStore = new LoopStore(new AppConfig());
 
 		int id1 = loopStore.addSample("test".getBytes());
 		int id2 = loopStore.addSample("test".getBytes());
@@ -26,7 +27,7 @@ public class LoopStoreTest {
 
 	@Test
 	public void testGetSamples() {
-		LoopStore loopStore = new LoopStore();
+		LoopStore loopStore = new LoopStore(new AppConfig());
 		loopStore.addSample("test".getBytes());
 		loopStore.addSample("test".getBytes());
 
@@ -37,7 +38,7 @@ public class LoopStoreTest {
 
 	@Test
 	public void testGetSampleIds() {
-		LoopStore loopStore = new LoopStore();
+		LoopStore loopStore = new LoopStore(new AppConfig());
 		int id1 = loopStore.addSample("test".getBytes());
 		int id2 = loopStore.addSample("test".getBytes());
 
