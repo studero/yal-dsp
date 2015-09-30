@@ -12,25 +12,36 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
+import ch.sulco.yal.dsp.AppConfig;
+
 public class Player {
+	private AppConfig appConfig;
 	private int length;
 	private HashMap<Integer, Clip> clips = new HashMap<Integer, Clip>();
 	private LinkedList<Clip> playingClips = new LinkedList<Clip>();
+	
+	public Player(AppConfig appConfig){
+		this.appConfig = appConfig;
+	}
 
-	public int addLoop(String fileName) {
+	public int addSample(String fileName) {
 		try {
 			File file = new File(fileName);
 			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
 			byte[] data = new byte[(int)file.length()];
 			ais.read(data);
-			return addLoop(ais.getFormat(), data);
+			return addSample(ais.getFormat(), data);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 	
-	public int addLoop(AudioFormat format, byte[] data){
+	public int addSample(byte[] data){
+		return addSample(appConfig.getAudioFormat(), data);
+	}
+	
+	public int addSample(AudioFormat format, byte[] data){
 		try {
 			if(clips.isEmpty()){
 				length = data.length;
@@ -49,7 +60,7 @@ public class Player {
 		return 0;
 	}
 	
-	public void startLoop(int id){
+	public void startSample(int id){
 		Clip clip = clips.get(id);
 		if(clip != null){
 			if(!playingClips.contains(clip)){
@@ -59,7 +70,7 @@ public class Player {
 					playingClips.getFirst().addLineListener(new LineListener() {
 						public void update(LineEvent event) {
 							playingClips.getFirst().removeLineListener(this);
-							startAllLoops();
+							startAllSamples();
 						}
 					});
 					playingClips.getFirst().loop(0);
@@ -69,13 +80,13 @@ public class Player {
 		}
 	}
 	
-	private void startAllLoops(){
+	private void startAllSamples(){
 		for(Clip clip : playingClips){
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	}
 	
-	public void stopLoop(int id){
+	public void stopSample(int id){
 		Clip clip = clips.get(id);
 		if(clip != null){
 			clip.loop(0);

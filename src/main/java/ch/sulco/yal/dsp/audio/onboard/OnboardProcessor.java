@@ -15,6 +15,10 @@ public class OnboardProcessor implements Processor {
 		this.recorder = recorder;
 		this.loopStore = loopStore;
 	}
+	
+	public Player getPlayer(){
+		return player;
+	}
 
 	@Override
 	public Set<Integer> getSampleIds() {

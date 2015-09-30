@@ -13,16 +13,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ch.sulco.yal.dsp.audio.onboard.LoopStore;
+import ch.sulco.yal.dsp.audio.onboard.OnboardProcessor;
+import ch.sulco.yal.dsp.audio.onboard.Player;
+import ch.sulco.yal.dsp.audio.onboard.Recorder;
+
 public class TestGui extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private static JFrame frame;
-	private Controller controller;
+	private OnboardProcessor controller;
 	JComboBox<String> fileSelector;
 	JPanel loopsPanel;
 
 	public TestGui(){
-		controller = new Controller();
+		AppConfig appConfig = new AppConfig();
+		controller = new OnboardProcessor(new Player(appConfig), new Recorder(appConfig), new LoopStore());
 
 		setLayout ( new GridBagLayout ());
 		GridBagConstraints constraints = new GridBagConstraints ();
@@ -81,7 +87,7 @@ public class TestGui extends JPanel{
 			constraints.weighty = 1.0;
 			constraints.gridy = 0;
 			
-			final int id = controller.getPlayer().addLoop(file);
+			final int id = controller.getPlayer().addSample(file);
 			JLabel label = new JLabel(file);
 			constraints.gridx = 0;
 			add(label, constraints);
@@ -89,7 +95,7 @@ public class TestGui extends JPanel{
 			JButton start = new JButton("start");
 			start.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().startLoop(id);
+					controller.getPlayer().startSample(id);
 				}
 			});
 			constraints.gridx = 1;
@@ -98,7 +104,7 @@ public class TestGui extends JPanel{
 			JButton stop = new JButton("stop");
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().stopLoop(id);
+					controller.getPlayer().stopSample(id);
 				}
 			});
 			constraints.gridx = 2;
