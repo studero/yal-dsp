@@ -10,25 +10,26 @@ import java.util.Set;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import ch.sulco.yal.dsp.AppConfig;
 import ch.sulco.yal.dsp.dm.Sample;
 
 public class LoopStore {
-	private AppConfig appConfig;
+	private final AudioSystemProvider audioSystemProvider;
+	private final AppConfig appConfig;
 	private int sampleLength;
 	private Map<Integer, Sample> samples = new HashMap<Integer, Sample>();
 	
-	public LoopStore(AppConfig appConfig){
+	public LoopStore(AppConfig appConfig, AudioSystemProvider audioSystemProvider){
 		this.appConfig = appConfig;
+		this.audioSystemProvider = audioSystemProvider;
 	}
 	
 	public int addSample(String fileName) {
 		try {
 			File file = new File(fileName);
-			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
+			AudioInputStream ais = audioSystemProvider.getAudioInputStream(file);
 			byte[] data = new byte[(int)file.length()];
 			ais.read(data);
 			return addSample(ais.getFormat(), data);
@@ -51,8 +52,7 @@ public class LoopStore {
 				byte[] longerData = Arrays.copyOf(data, sampleLength);
 				data = longerData;
 			}
-			Clip clip = AudioSystem.getClip();
-			clip.open(format, data, 0, sampleLength);
+			Clip clip = audioSystemProvider.getClip(format, data, 0, sampleLength);
 			newId = this.samples.size() == 0 ? 0 : Collections.max(this.samples.keySet()) + 1;
 			Sample sample = new Sample(newId, clip);
 			this.samples.put(newId, sample);

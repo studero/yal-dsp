@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ch.sulco.yal.dsp.audio.onboard.AudioSystemProvider;
 import ch.sulco.yal.dsp.audio.onboard.LoopStore;
 import ch.sulco.yal.dsp.audio.onboard.OnboardProcessor;
 import ch.sulco.yal.dsp.audio.onboard.Player;
@@ -29,7 +30,7 @@ public class TestGui extends JPanel{
 	public TestGui(){
 		AppConfig appConfig = new AppConfig();
 		Player player = new Player();
-		LoopStore loopStore = new LoopStore(appConfig);
+		LoopStore loopStore = new LoopStore(appConfig, new AudioSystemProvider());
 		controller = new OnboardProcessor(player, new Recorder(appConfig, player, loopStore), loopStore);
 
 		setLayout ( new GridBagLayout ());
