@@ -10,6 +10,8 @@ import ch.sulco.yal.dsp.cmd.Command;
 import ch.sulco.yal.dsp.cmd.CommandReceiver;
 import ch.sulco.yal.dsp.cmd.CommandReceiver.CommandListener;
 import ch.sulco.yal.dsp.cmd.LoadSample;
+import ch.sulco.yal.dsp.cmd.Loop;
+import ch.sulco.yal.dsp.cmd.Play;
 
 public class Application implements CommandListener {
 
@@ -25,6 +27,7 @@ public class Application implements CommandListener {
 		this.commandReceiver = commandReceiver;
 		this.commandReceiver.setCommandListener(this);
 		this.audioProcessor = processor;
+		log.info("Application started");
 	}
 
 	@Override
@@ -34,6 +37,10 @@ public class Application implements CommandListener {
 			LoadSample loadSample = (LoadSample) command;
 			int sampleId = this.audioProcessor.putData(loadSample.getData());
 			log.info("New Sample created [id=" + sampleId + "]");
+		} else if(command instanceof Play){
+			this.audioProcessor.play();
+		} else if(command instanceof Loop){
+			this.audioProcessor.loop();
 		}
 	}
 }
