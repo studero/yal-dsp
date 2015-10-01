@@ -9,8 +9,6 @@ import ch.sulco.yal.dsp.audio.Processor;
 import ch.sulco.yal.dsp.audio.RecordingState;
 import ch.sulco.yal.dsp.dm.Sample;
 
-import com.google.common.collect.Sets;
-
 public class OnboardProcessor implements Processor {
 
 	private final static Logger log = Logger.getLogger(OnboardProcessor.class.getName());
@@ -45,7 +43,7 @@ public class OnboardProcessor implements Processor {
 
 	@Override
 	public Set<Integer> getChannelIds() {
-		return Sets.newHashSet(0);
+		return this.recorders.keySet();
 	}
 
 	@Override
@@ -94,7 +92,7 @@ public class OnboardProcessor implements Processor {
 		Sample sample = this.loopStore.getSample(sampleId);
 		if (sample != null) {
 			if (mute) {
-				this.player.startSample(sample);
+				this.player.stopSample(sample);
 			} else {
 				this.player.startSample(sample);
 			}
