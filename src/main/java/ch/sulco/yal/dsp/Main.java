@@ -12,7 +12,7 @@ public class Main {
 		AppConfig appConfig = new AppConfig();
 		Player player = new Player();
 		LoopStore loopStore = new LoopStore(appConfig, new AudioSystemProvider());
-		new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(player,
-				new Recorder(appConfig, player, loopStore), loopStore));
+		new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(player, loopStore,
+				new Recorder(appConfig, player, loopStore)));
 	}
 }

@@ -1,5 +1,7 @@
 package ch.sulco.yal.dsp.audio.onboard;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -14,12 +16,17 @@ public class OnboardProcessor implements Processor {
 	private final static Logger log = Logger.getLogger(OnboardProcessor.class.getName());
 
 	private final Player player;
-	private final Recorder recorder;
+	private final Map<Integer, Recorder> recorders;
 	private final LoopStore loopStore;
 
-	public OnboardProcessor(Player player, Recorder recorder, LoopStore loopStore) {
+	public OnboardProcessor(Player player, LoopStore loopStore, Recorder... recorders) {
 		this.player = player;
-		this.recorder = recorder;
+		this.recorders = new HashMap<>();
+		int i = 0;
+		for (Recorder r : recorders) {
+			this.recorders.put(i, r);
+			i++;
+		}
 		this.loopStore = loopStore;
 	}
 
@@ -50,8 +57,10 @@ public class OnboardProcessor implements Processor {
 	@Override
 	public void play() {
 		log.info("Play");
-		this.recorder.startRecord();
-		this.recorder.loopStarted();
+		for (Recorder recorder : this.recorders.values()) {
+			recorder.startRecord();
+			recorder.loopStarted();
+		}
 	}
 
 	@Override
@@ -63,7 +72,9 @@ public class OnboardProcessor implements Processor {
 	@Override
 	public void loop() {
 		log.info("Loop");
-		this.recorder.stopRecord();
+		for (Recorder recorder : this.recorders.values()) {
+			recorder.stopRecord();
+		}
 
 		log.info("Start Sample");
 		this.player.startSample(this.loopStore.getSample(0));
@@ -72,9 +83,9 @@ public class OnboardProcessor implements Processor {
 	@Override
 	public void setChannelRecording(int channelId, boolean recording) {
 		if (recording) {
-			this.recorder.startRecord();
+			this.recorders.get(channelId).startRecord();
 		} else {
-			this.recorder.stopRecord();
+			this.recorders.get(channelId).stopRecord();
 		}
 	}
 
@@ -110,7 +121,7 @@ public class OnboardProcessor implements Processor {
 
 	@Override
 	public RecordingState getChannelRecordingState(int channelId) {
-		return this.recorder.getRecordingState();
+		return this.recorders.get(channelId).getRecordingState();
 	}
 
 }

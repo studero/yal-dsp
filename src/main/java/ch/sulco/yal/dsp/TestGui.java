@@ -19,113 +19,120 @@ import ch.sulco.yal.dsp.audio.onboard.OnboardProcessor;
 import ch.sulco.yal.dsp.audio.onboard.Player;
 import ch.sulco.yal.dsp.audio.onboard.Recorder;
 
-public class TestGui extends JPanel{
+public class TestGui extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static JFrame frame;
 	private OnboardProcessor controller;
 	JComboBox<String> fileSelector;
 	JPanel loopsPanel;
 
-	public TestGui(){
+	public TestGui() {
 		AppConfig appConfig = new AppConfig();
 		Player player = new Player();
 		LoopStore loopStore = new LoopStore(appConfig, new AudioSystemProvider());
-		controller = new OnboardProcessor(player, new Recorder(appConfig, player, loopStore), loopStore);
+		this.controller = new OnboardProcessor(player, loopStore, new Recorder(appConfig, player, loopStore));
 
-		setLayout ( new GridBagLayout ());
-		GridBagConstraints constraints = new GridBagConstraints ();
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 1.0;
 		constraints.weighty = 1.0;
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 2;
-		
-		fileSelector = new JComboBox<String>(new File(TestGui.class.getClassLoader().getResource("sounds").getFile()).list());
-		add(fileSelector, constraints);
-		
+
+		this.fileSelector = new JComboBox<String>(new File(TestGui.class.getClassLoader().getResource("sounds")
+				.getFile()).list());
+		this.add(this.fileSelector, constraints);
+
 		JButton add = new JButton("add");
 		add.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				loopsPanel.add(new LoopPanel((String)fileSelector.getSelectedItem()));
-				loopsPanel.updateUI();
+				TestGui.this.loopsPanel.add(new LoopPanel((String) TestGui.this.fileSelector.getSelectedItem()));
+				TestGui.this.loopsPanel.updateUI();
 			}
 		});
 		constraints.gridx = 2;
 		constraints.gridwidth = 1;
-		add(add, constraints);
+		this.add(add, constraints);
 
-		loopsPanel = new JPanel();
-		loopsPanel.setPreferredSize(new Dimension(500, 400));
+		this.loopsPanel = new JPanel();
+		this.loopsPanel.setPreferredSize(new Dimension(500, 400));
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 3;
-		add(loopsPanel, constraints);
+		this.add(this.loopsPanel, constraints);
 	}
-	
+
 	public static void main(String[] args) {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		TestGui contentPane = new TestGui();
-		
+
 		contentPane.setOpaque(true);
-		
+
 		frame.setTitle("Basic GUI for Looper");
 		frame.setContentPane(contentPane);
-		
-		frame.setSize(600,500);
+
+		frame.setSize(600, 500);
 		frame.setVisible(true);
 	}
-	
-	private class LoopPanel extends JPanel{
+
+	private class LoopPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
-		public LoopPanel(String file){
-			file = "sounds/"+file;
-			setLayout ( new GridBagLayout ());
-			GridBagConstraints constraints = new GridBagConstraints ();
+		public LoopPanel(String file) {
+			file = "sounds/" + file;
+			this.setLayout(new GridBagLayout());
+			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.weightx = 1.0;
 			constraints.weighty = 1.0;
 			constraints.gridy = 0;
-			
-			final int id = controller.getLoopStore().addSample(file);
+
+			final int id = TestGui.this.controller.getLoopStore().addSample(file);
 			JLabel label = new JLabel(file);
 			constraints.gridx = 0;
-			add(label, constraints);
-			
+			this.add(label, constraints);
+
 			JButton start = new JButton("start");
 			start.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().startSample(controller.getLoopStore().getSample(id));
+					TestGui.this.controller.getPlayer().startSample(
+							TestGui.this.controller.getLoopStore().getSample(id));
 				}
 			});
 			constraints.gridx = 1;
-			add(start, constraints);
-			
+			this.add(start, constraints);
+
 			JButton stop = new JButton("stop");
 			stop.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getPlayer().stopSample(controller.getLoopStore().getSample(id));
+					TestGui.this.controller.getPlayer()
+							.stopSample(TestGui.this.controller.getLoopStore().getSample(id));
 				}
 			});
 			constraints.gridx = 2;
-			add(stop, constraints);
-			
+			this.add(stop, constraints);
+
 			JButton remove = new JButton("remove");
 			remove.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					controller.getLoopStore().removeSample(id);
-					loopsPanel.remove(getPanel());
-					loopsPanel.updateUI();
+					TestGui.this.controller.getLoopStore().removeSample(id);
+					TestGui.this.loopsPanel.remove(LoopPanel.this.getPanel());
+					TestGui.this.loopsPanel.updateUI();
 				}
 			});
 			constraints.gridx = 3;
-			add(remove, constraints);
+			this.add(remove, constraints);
 		}
-		
-		private JPanel getPanel(){
+
+		private JPanel getPanel() {
 			return this;
 		}
 	}
