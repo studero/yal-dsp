@@ -31,7 +31,7 @@ public class Player {
 	}
 
 	private void checkLine() {
-		if (this.lineListener != null) {
+		if (this.lineListener == null) {
 			this.lineListener = new LineListener() {
 				@Override
 				public void update(LineEvent event) {

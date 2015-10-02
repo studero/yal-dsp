@@ -43,10 +43,6 @@ public class Recorder implements LoopListener {
 	public void stopRecord() {
 		this.recordingState = RecordingState.STOPPED;
 		this.player.removeLoopListerner(this);
-		if (this.recordingSample != null) {
-			this.recordedSample = this.recordingSample.toByteArray();
-			this.recordingSample = null;
-		}
 		if (this.recordedSample != null) {
 			this.loopStore.addSample(this.recordedSample);
 			this.recordedSample = null;
