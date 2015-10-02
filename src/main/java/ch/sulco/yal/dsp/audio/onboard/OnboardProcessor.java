@@ -138,4 +138,9 @@ public class OnboardProcessor implements Processor {
 		return control.getValue();
 	}
 
+	@Override
+	public Long getLoopLength() {
+		return loopStore.getSampleIds().isEmpty() ? null : loopStore.getSample(0).getClip().getMicrosecondLength();
+	}
+
 }

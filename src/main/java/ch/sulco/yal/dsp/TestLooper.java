@@ -14,11 +14,13 @@ public class TestLooper {
 		LoopStore loopStore = new LoopStore(appConfig, new AudioSystemProvider());
 		Application application = new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(player, loopStore,
 				new Recorder(appConfig, player, loopStore)));
+		System.out.println(application.getAudioProcessor().getLoopLength());
 		application.getAudioProcessor().play();
 		Thread.sleep(2000);
 		application.getAudioProcessor().loop();
 		
 		System.out.println(application.getAudioProcessor().getSampleVolume(0));
 		System.out.println(application.getAudioProcessor().isSampleMute(0));
+		System.out.println(application.getAudioProcessor().getLoopLength());
 	}
 }

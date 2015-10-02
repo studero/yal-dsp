@@ -88,4 +88,6 @@ public interface Processor {
 	 *            the id of the sample.
 	 */
 	void removeSample(int sampleId);
+	
+	Long getLoopLength();
 }
