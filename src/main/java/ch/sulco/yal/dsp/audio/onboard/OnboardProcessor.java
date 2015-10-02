@@ -106,7 +106,7 @@ public class OnboardProcessor implements Processor {
 
 	@Override
 	public void setSampleVolume(int sampleId, float volume) {
-		FloatControl control = (FloatControl) this.loopStore.getSample(sampleId).getClip().getControl(Type.VOLUME);
+		FloatControl control = (FloatControl) this.loopStore.getSample(sampleId).getClip().getControl(Type.MASTER_GAIN);
 		control.setValue(volume);
 	}
 
@@ -134,7 +134,7 @@ public class OnboardProcessor implements Processor {
 
 	@Override
 	public float getSampleVolume(int sampleId) {
-		FloatControl control = (FloatControl) this.loopStore.getSample(sampleId).getClip().getControl(Type.VOLUME);
+		FloatControl control = (FloatControl) this.loopStore.getSample(sampleId).getClip().getControl(Type.MASTER_GAIN);
 		return control.getValue();
 	}
 
