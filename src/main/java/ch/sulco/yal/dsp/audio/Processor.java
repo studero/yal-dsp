@@ -66,6 +66,8 @@ public interface Processor {
 	 *            true if the sample should be muted.
 	 */
 	void setSampleMute(int sampleId, boolean mute);
+	
+	boolean isSampleMute(int sampleId);
 
 	/**
 	 * set provided sample id to provided volume.
@@ -75,7 +77,9 @@ public interface Processor {
 	 * @param volume
 	 *            the volume the sample should be set to.
 	 */
-	void setSampleVolume(int sampleId, int volume);
+	void setSampleVolume(int sampleId, float volume);
+	
+	float getSampleVolume(int sampleId);
 
 	/**
 	 * remove sample identified by provided sample id.

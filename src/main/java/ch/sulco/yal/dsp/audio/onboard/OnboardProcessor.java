@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.FloatControl.Type;
+
 import ch.sulco.yal.dsp.audio.Processor;
 import ch.sulco.yal.dsp.audio.RecordingState;
 import ch.sulco.yal.dsp.dm.Sample;
@@ -101,9 +105,9 @@ public class OnboardProcessor implements Processor {
 	}
 
 	@Override
-	public void setSampleVolume(int sampleId, int volume) {
-		// TODO Auto-generated method stub
-
+	public void setSampleVolume(int sampleId, float volume) {
+		FloatControl control = (FloatControl) this.loopStore.getSample(sampleId).getClip().getControl(Type.VOLUME);
+		control.setValue(volume);
 	}
 
 	@Override
@@ -120,6 +124,18 @@ public class OnboardProcessor implements Processor {
 	@Override
 	public RecordingState getChannelRecordingState(int channelId) {
 		return this.recorders.get(channelId).getRecordingState();
+	}
+
+	@Override
+	public boolean isSampleMute(int sampleId) {
+		BooleanControl control = (BooleanControl) this.loopStore.getSample(sampleId).getClip().getControl(BooleanControl.Type.MUTE);
+		return control.getValue();
+	}
+
+	@Override
+	public float getSampleVolume(int sampleId) {
+		FloatControl control = (FloatControl) this.loopStore.getSample(sampleId).getClip().getControl(Type.VOLUME);
+		return control.getValue();
 	}
 
 }
