@@ -16,7 +16,7 @@ public class TestLooper {
 				new Recorder(appConfig, player, loopStore)));
 		System.out.println(application.getAudioProcessor().getLoopLength());
 		application.getAudioProcessor().play();
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 		application.getAudioProcessor().loop();
 		
 		System.out.println(application.getAudioProcessor().getSampleVolume(0));
