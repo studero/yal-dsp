@@ -12,8 +12,11 @@ public class TestLooper {
 		AppConfig appConfig = new AppConfig();
 		Player player = new Player();
 		LoopStore loopStore = new LoopStore(appConfig, new AudioSystemProvider());
+		Recorder recorder = new Recorder(appConfig, player, loopStore);
+		Recorder recorder2 = new Recorder(appConfig, player, loopStore);
 		Application application = new Application(appConfig, new SocketCommandReceiver(appConfig), new OnboardProcessor(player, loopStore,
-				new Recorder(appConfig, player, loopStore)));
+				recorder, 
+				recorder2));
 		System.out.println(application.getAudioProcessor().getLoopLength());
 		application.getAudioProcessor().play();
 		Thread.sleep(10000);
